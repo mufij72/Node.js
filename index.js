@@ -22,7 +22,7 @@ const dataControl = (req, resp) => {
     resp.end();
 }
 
-http.createServer(dataControl).listen(4501, () => {
-    console.log("Server is listening on port 4501");
+http.createServer(dataControl).listen(4555, () => {
+    console.log("Server is listening on port 4555");
 });
 
