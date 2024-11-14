@@ -1,28 +1,36 @@
-// var x=20;
-// for (let i=0; i<=x ;i++) {
-//     console.log(i)
-// }
-// const app =require("./app")
+const express = require('express');
+const mongoose = require('mongoose'); 
+const app = express();
+require('dotenv').config();
+const route = require("./Src/Route/User");
+const  movieRoute=require("./Src/Route/Movis")
+const Blogroute =require('./Src/Route/Blog')
+const session = require('express-session')
+const port = process.env.PORT || 3000;
 
-// const  arr =[2,4,5,3,3,6,7,8]
-// console.log(arr);
-// console.log(app)
-// // console.log(app.z())
-// let result = arr.filter((item)=>{
-// return item ===3;
-// })
-// console.warn(result)
-// const gs=require('fs').writeFileSync;
-// gs("xyz.txt","abc")
+app.use(express.json());
+app.use(session({
+    secret: process.env.SECRET_KEY || "defaultsecret",
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }  
+}));
 
-const http = require('http');
 
-const dataControl = (req, resp) => {
-    resp.write("<h1>Hello, this is Mufij</h1>");
-    resp.end();
-}
 
-http.createServer(dataControl).listen(4555, () => {
-    console.log("Server is listening on port 4555");
+
+
+app.use('/', route);
+
+// movie project 
+// app.use('/movis',movieRoute);
+
+// app.User('blog',Blogroute)
+
+mongoose.connect("mongodb://localhost:27017/e-commrs")
+    .then(() => console.log('Connected to MongoDB...'))
+    .catch((error) => console.error('Could not connect to MongoDB:', error));
+
+app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
 });
-
